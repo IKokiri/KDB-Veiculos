@@ -1,0 +1,5 @@
+/vendor/
+server.js
+InfoDB.php
+InfoMail.phpW
+*.log
