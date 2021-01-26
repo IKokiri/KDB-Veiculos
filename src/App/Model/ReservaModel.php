@@ -5,12 +5,13 @@ namespace App\Model;
 use App\DAO\Database;
 use App\Core\Model;
 use PDO;
-
+use GuzzleHttp\Client;
 
 class ReservaModel extends Model{
 
     private $table = "`reservas`";
     private $model = "ReservaModel";
+    private $client;
 
     function read(){
         
@@ -81,11 +82,29 @@ class ReservaModel extends Model{
 
 
     function getId($data){
-        
+
         $this->populate($data);
 
-        $sql = "SELECT * FROM ".$this->table." 
-        WHERE `id` = :id;";
+        $clientF = new Client([
+            // Base URI is used with relative requests
+            'base_uri' => 'http://201.49.127.157:9003/gesstor/App/API/funcionarios.php',
+        ]);         
+        $response = $clientF->request('GET', '', []);
+        $body = $response->getBody();
+        $arr_func = json_decode($body,true);
+
+        $clientC = new Client([
+            // Base URI is used with relative requests
+            'base_uri' => 'http://201.49.127.157:9003/gesstor/App/API/contratos.php',
+        ]);         
+        $response = $clientC->request('GET', '', []);
+        $body = $response->getBody();
+        $arr_cont = json_decode($body,true);
+
+        $sql = "SELECT res.*,vei.marca,vei.modelo,vei.placa FROM ".$this->table." res
+         inner join veiculos vei
+         on res.id_veiculo = vei.id
+        WHERE res.id = :id;";
 
         $query = $this->conn->prepare($sql);
 
@@ -93,6 +112,11 @@ class ReservaModel extends Model{
 
         $result = Database::executa($query);   
 
+        $id_funcionario = $result['result_array'][0]['id_funcionario'];
+        $id_contrato = $result['result_array'][0]['id_contrato'];
+            
+        $result['result_array'][0]['funcionario']= $arr_func[$id_funcionario]['nome'];        
+        $result['result_array'][0]['contrato']= $arr_cont[$id_contrato]['contrato'];
         $this->log->setInfo("Buscou ($this->model getId) o registro $this->id");
 
         return $result;

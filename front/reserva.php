@@ -104,8 +104,13 @@
         </div>
         <div class="modal-body">
 
-
-            asd
+        <h5>Veiculo: </h5><span id="veic"></span>
+        <h5>Funcionario: </h5><span id="func"></span>
+        <h5>Saída: </h5><span id="said"></span>
+        <h5>Retorno: </h5><span id="reto"></span>
+        <h5>Local: </h5><span id="loca"></span>
+        <h5>Contrato: </h5><span id="cont"></span>
+            
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>

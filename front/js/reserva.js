@@ -336,6 +336,20 @@ function info(id){
             }         
             linha = data.result_array[0];
             console.log(linha)
+
+            
+        document.querySelector("#veic").innerHTML = linha.marca+" "+linha.modelo+" - "+linha.placa
+        document.querySelector("#func").innerHTML = linha.funcionario
+        document.querySelector("#said").innerHTML = linha.data_saida
+        document.querySelector("#reto").innerHTML = linha.data_retorno
+        document.querySelector("#loca").innerHTML = linha.local
+        document.querySelector("#cont").innerHTML = linha.contrato
+ 
+ 
+ 
+ 
+ 
+             
         })
         .catch(console.error);
 }
