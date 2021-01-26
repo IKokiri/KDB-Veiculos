@@ -17,7 +17,6 @@
     <thead>
       <tr>
         <th scope="col">Veículo</th>
-        <th scope="col">Funcionario</th>
         <th scope="col">Saída</th>
         <th scope="col">Retorno</th>
         <th scope="col">Local</th>

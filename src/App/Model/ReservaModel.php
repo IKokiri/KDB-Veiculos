@@ -30,7 +30,10 @@ class ReservaModel extends Model{
         
         $this->populate($data);
 
-       $sql = "SELECT * FROM ".$this->table." limit :pagini,:pagfim";
+       $sql = "SELECT res.*,vei.marca,vei.modelo,vei.placa FROM ".$this->table." res
+       INNER JOIN veiculos vei
+       on res.id_veiculo = vei.id
+       limit :pagini,:pagfim";
 
         $query = $this->conn->prepare($sql);
 
@@ -44,6 +47,37 @@ class ReservaModel extends Model{
         return $result;
 
     }
+
+    function filter($data){
+        
+        $this->populate($data);
+
+        $sql = "SELECT res.*,vei.marca,vei.modelo,vei.placa FROM ".$this->table." res
+       INNER JOIN veiculos vei
+       on res.id_veiculo = vei.id
+       where  
+       `data_saida` LIKE :data_saida or
+       `data_retorno` LIKE :data_retorno or  
+       `local` LIKE :local or  
+       `marca` LIKE :marca or  
+       `modelo` LIKE :modelo or  
+       `placa` LIKE :placa";
+
+        $query = $this->conn->prepare($sql);
+
+        $query->bindValue(':data_saida', "%".$this->term."%", PDO::PARAM_STR);
+        $query->bindValue(':data_retorno', "%".$this->term."%", PDO::PARAM_STR);
+        $query->bindValue(':local', "%".$this->term."%", PDO::PARAM_STR);
+        $query->bindValue(':marca', "%".$this->term."%", PDO::PARAM_STR);
+        $query->bindValue(':modelo', "%".$this->term."%", PDO::PARAM_STR);
+        $query->bindValue(':placa', "%".$this->term."%", PDO::PARAM_STR);
+
+        $result = Database::executa($query);   
+
+        $this->log->setInfo("Filtrou ($this->model getId) o registro");
+
+        return $result;
+    }    
 
 
     function getId($data){
@@ -64,23 +98,6 @@ class ReservaModel extends Model{
         return $result;
     }
 
-    function filter($data){
-        
-        $this->populate($data);
-
-        $sql = "SELECT * FROM ".$this->table." 
-        WHERE `email` LIKE :email;";
-
-        $query = $this->conn->prepare($sql);
-
-        $query->bindValue(':email', "%".$this->term."%", PDO::PARAM_STR);
-
-        $result = Database::executa($query);   
-
-        $this->log->setInfo("Filtrou ($this->model getId) o registro");
-
-        return $result;
-    }    
 
     function create($data){
         

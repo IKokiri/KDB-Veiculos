@@ -182,8 +182,7 @@ function grid_principal(term = "",ini = 0,fim = 10){
             grid += 
             `
                 <tr>
-                    <td>${dados[linha].id_veiculo}</td>
-                    <td>${dados[linha].id_funcionario}</td>
+                    <td>${dados[linha].marca} ${dados[linha].modelo} - ${dados[linha].placa}</td>
                     <td>${dados[linha].data_saida}</td>
                     <td>${dados[linha].data_retorno}</td>
                     <td>${dados[linha].local}</td>
