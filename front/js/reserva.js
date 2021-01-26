@@ -77,6 +77,13 @@ $(document).on('click','#abrir_modal',function(){
     $('#modal_principal').modal('show')
 })
 
+
+$(document).on('click','.info',function(){
+    $('#modal_info').modal('show')
+    id = $(this).data("id");
+    info(id)
+})
+
 $('#modal_principal').on('hidden.bs.modal', function () {
     document.querySelector("#id").value = ""
   })
@@ -186,6 +193,7 @@ function grid_principal(term = "",ini = 0,fim = 10){
                     <td>${dados[linha].data_saida}</td>
                     <td>${dados[linha].data_retorno}</td>
                     <td>${dados[linha].local}</td>
+                    <td data-id="${dados[linha].id}" class='info'><img src="./icons/info.png"  alt=""></td>
                     <td data-id="${dados[linha].id}" id="edit"><img src="./icons/001-pencil.png"  alt=""></td>
                     <td data-id="${dados[linha].id}" id="remover"><img src="./icons/002-delete.png"  alt=""></td>
                 </tr>
@@ -258,6 +266,7 @@ $(document).on('click','.anterior',function(){
     grid_principal("",ini,fim)
 })
 
+
 $(document).on('click','.proximo',function(){
     ini = $(this).attr("data-ini");
     fim = $(this).attr("data-fim");
@@ -304,6 +313,29 @@ function remover(id){
                 base_erro(data.MSN.errorInfo[1])
             }      
             inicio()
+        })
+        .catch(console.error);
+}
+
+
+function info(id){
+
+    formData = new FormData();
+    formData.append('class', controller);
+    formData.append('method', 'getId');
+    formData.append('id', id);
+    
+        fetch(base_request,{
+            method:'post',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {  
+            if(data.MSN){
+                base_erro(data.MSN.errorInfo[1])
+            }         
+            linha = data.result_array[0];
+            console.log(linha)
         })
         .catch(console.error);
 }
