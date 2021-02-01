@@ -77,6 +77,10 @@
                 <label for="inputEmail4">Contrato</label>
                 <select  class="form-control" id="id_contrato">
                 </select>
+              </div>              
+              <div class="form-group col-md-12">
+                <label for="inputEmail4">Observação</label>
+                <textarea  class="form-control" id="observacao"></textarea>
               </div>
             </div>
             <input type="hidden" id="id">

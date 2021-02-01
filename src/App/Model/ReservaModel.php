@@ -133,6 +133,7 @@ class ReservaModel extends Model{
                     `data_saida`,
                     `data_retorno`,
                     `local`,
+                    `observacao`,
                     `id_contrato`)
                     VALUES
                     (:id_veiculo,
@@ -140,6 +141,7 @@ class ReservaModel extends Model{
                      :data_saida,
                      :data_retorno,
                      :local,
+                     :observacao,
                      :id_contrato)";
 
         $query = $this->conn->prepare($sql);
@@ -149,6 +151,7 @@ class ReservaModel extends Model{
         $query->bindValue(':data_saida', $this->data_saida, PDO::PARAM_STR);
         $query->bindValue(':data_retorno', $this->data_retorno, PDO::PARAM_STR);
         $query->bindValue(':local', $this->local, PDO::PARAM_STR);
+        $query->bindValue(':observacao', $this->observacao, PDO::PARAM_STR);
         $query->bindValue(':id_contrato', $this->id_contrato, PDO::PARAM_STR);
         
         $result = Database::executa($query); 
@@ -169,7 +172,8 @@ class ReservaModel extends Model{
                 `data_saida` = :data_saida,
                 `data_retorno` = :data_retorno,
                 `local` = :local,
-                `id_contrato` = :id_contrato
+                `id_contrato` = :id_contrato,
+                `observacao` = :observacao
                 WHERE `id` = :id;";
 
         $query = $this->conn->prepare($sql);
@@ -180,6 +184,7 @@ class ReservaModel extends Model{
         $query->bindValue(':data_saida', $this->data_saida, PDO::PARAM_STR);
         $query->bindValue(':data_retorno', $this->data_retorno, PDO::PARAM_STR);
         $query->bindValue(':local', $this->local, PDO::PARAM_STR);
+        $query->bindValue(':observacao', $this->observacao, PDO::PARAM_STR);
         $query->bindValue(':id_contrato', $this->id_contrato, PDO::PARAM_STR);
       
         $result = Database::executa($query);   

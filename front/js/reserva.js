@@ -27,9 +27,11 @@ function carregar_campos(){
     let data_retorno = document.querySelector("#data_retorno").value;
     let local = document.querySelector("#local").value;
     let id_contrato = document.querySelector("#id_contrato").value;
+    let observacao = document.querySelector("#observacao").value;
     let id = document.querySelector("#id").value;
 
     formData.append('id_veiculo', id_veiculo);
+    formData.append('observacao', observacao);
     formData.append('id_funcionario', id_funcionario);
     formData.append('data_saida', data_saida);
     formData.append('data_retorno', data_retorno);
@@ -43,6 +45,7 @@ function carregar_campos(){
 function limpar_campos(){
 
     let id_veiculo = document.querySelector("#id_veiculo").value = "";
+    let observacao = document.querySelector("#observacao").value = "";
     let id_funcionario = document.querySelector("#id_funcionario").value = "";    
     let data_saida = document.querySelector("#data_saida").value = "";
     let data_retorno = document.querySelector("#data_retorno").value = "";
@@ -55,6 +58,7 @@ function limpar_campos(){
 function preencher_form(data){
 
     let id_veiculo = data.id_veiculo;
+    let observacao = data.observacao;
     let id_funcionario = data.id_funcionario;
     let data_saida = data.data_saida;
     let data_retorno = data.data_retorno;
@@ -69,6 +73,7 @@ function preencher_form(data){
     document.querySelector("#data_retorno").value = data_retorno.replace(" ","T")
     document.querySelector("#local").value = local
     document.querySelector("#id_contrato").value = id_contrato
+    document.querySelector("#observacao").value = observacao
     document.querySelector("#id").value = id
     
 }
@@ -344,6 +349,7 @@ function info(id){
         document.querySelector("#reto").innerHTML = linha.data_retorno
         document.querySelector("#loca").innerHTML = linha.local
         document.querySelector("#cont").innerHTML = linha.contrato
+        document.querySelector("#obse").innerHTML = linha.observacao
  
  
  
