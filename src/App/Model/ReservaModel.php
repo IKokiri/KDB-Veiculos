@@ -33,8 +33,9 @@ class ReservaModel extends Model{
 
        $sql = "SELECT res.*,vei.marca,vei.modelo,vei.placa FROM ".$this->table." res
        INNER JOIN veiculos vei
-       on res.id_veiculo = vei.id
-       limit :pagini,:pagfim order by res.data_saida desc";
+       on res.id_veiculo = vei.id 
+       order by res.data_saida desc
+       limit :pagini,:pagfim";
 
         $query = $this->conn->prepare($sql);
 
