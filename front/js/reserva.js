@@ -87,10 +87,10 @@ $(document).on('click','#abrir_modal',function(){
 })
 
 
-$(document).on('click','.info',function(){
-    $('#modal_info').modal('show')
+$(document).on('click','.info',async function(){
     id = $(this).data("id");
-    info(id)
+    await info(id)
+    $('#modal_info').modal('show')
 })
 
 $('#modal_principal').on('hidden.bs.modal', function () {
@@ -415,7 +415,7 @@ function remover(id){
 }
 
 
-function info(id){
+async function info(id){
 
     formData = new FormData();
     formData.append('class', controller);
@@ -443,6 +443,7 @@ function info(id){
         document.querySelector("#loca").innerHTML = linha.local
         document.querySelector("#cont").innerHTML = linha.contrato
         document.querySelector("#obse").innerHTML = nl2br("<br>"+linha.observacao)
+        return true
         })
         .catch(console.error);
 }
