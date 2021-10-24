@@ -42,7 +42,7 @@ function getLogin(formData){
     .then(response => response.json())
     .then(data => {     
         if(data.count==1)   
-            window.location.href = `${base_front}/usuario.php`; 
+            window.location.href = `${base_front}/reservaConsulta.php`; 
         else
             alert("Dados incorretos")
     })

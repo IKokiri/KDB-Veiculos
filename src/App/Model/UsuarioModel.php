@@ -132,7 +132,6 @@ class UsuarioModel extends Model{
     function update($data){
 
         $this->populate($data);
-
         $sql = "UPDATE ".$this->table." 
                 SET
                 `email` = :email,
@@ -144,7 +143,7 @@ class UsuarioModel extends Model{
         
         $query->bindValue(':id', $this->id, PDO::PARAM_STR);
         $query->bindValue(':email', $this->email, PDO::PARAM_STR);        
-        $query->bindValue(':permissao', $this->permissao, PDO::PARAM_STR);  
+        $query->bindValue(':permissao', $this->permissao, PDO::PARAM_STR);   
         $query->bindValue(':senha', $this->senha, PDO::PARAM_STR);
       
         $result = Database::executa($query);   

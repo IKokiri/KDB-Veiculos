@@ -5,13 +5,8 @@
 <html lang="pt-br">
 
 <body>
-        
-  <div class="text-center">
-    <button class="btn btn-primary m-1" id="abrir_modal">
-        +
-    </button> 
-  </div>
   
+  <br/>
   <div class="col-10 offset-1" id="base_alert"></div>
   <table class="table table-bordered  table-hover col-10 offset-1">
     <thead>
@@ -23,8 +18,6 @@
         <th scope="col">Funcionário</th>
         <th scope="col">Local</th>
         <th scope="col">Info</th>
-        <th scope="col">Alterar</th>
-        <th scope="col">Remover</th>
       </tr>
     </thead>
     <tbody class="grid">
@@ -49,11 +42,6 @@
         <div class="modal-body">
           <!-- FORM -->
           <form>
-          <div class="alert-cnh alert" role="alert">
-            <span id="alert_cnh"></span>
-            <span id="alert_categoria"></span>
-            <span id="alert_validade"></span>
-          </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputEmail4">Veículo</label>
@@ -135,9 +123,6 @@
         <p>
         habilitado, está autorizado a utilizar o Veículo </h5><span id="veic"></span>
         </p>
-        <span id="validadeCNH"></span>
-        <br/>
-        <br/>
         <p>
         Contrato/C.Custo: <span id="cont"></span>
        </p>
@@ -168,13 +153,6 @@
           <li>Em caso de acidentes, deverá ser feita ocorrência policial. </li>
         </ol>
         <p>Autorizado pelo Setra</p>
-
-        <center>
-          <br>
-        <p>________________________________</p>
-        <p>Assinatura motorista</p>
-      </center>
-        
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -187,6 +165,6 @@
       include "footer.php"
     ?>
     <script src="./js/base_alert.js"></script>
-    <script src="./js/reserva.js"></script>
+    <script src="./js/reservaConsulta.js"></script>
 </body>
 </html>

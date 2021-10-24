@@ -41,7 +41,6 @@ class UsuarioController {
     }
 
     function update($data){
-    
         return $this->model->update($data);
     }
 

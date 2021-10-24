@@ -34,10 +34,10 @@ class Permissoes {
                     ]
             ],
             "VeiculoController"=>[
-                'permissao' => 1,
+                'permissao' => 0,
                 'funcoes' => [
                         'create'=>1,
-                        'read'=>1,
+                        'read'=>0,
                         'getId'=>1,
                         'update'=>1,
                         'delete'=>1,
@@ -46,15 +46,15 @@ class Permissoes {
                     ]
             ],
             "ReservaController"=>[
-                'permissao' => 1,
+                'permissao' => 0,
                 'funcoes' => [
                         'create'=>1,
                         'read'=>1,
-                        'getId'=>1,
+                        'getId'=>0,
                         'update'=>1,
                         'delete'=>1,
-                        'filter'=>1,
-                        'readLimit'=>1
+                        'filter'=>0,
+                        'readLimit'=>0
                     ]
             ],
             "Gosth"=>[
@@ -81,6 +81,11 @@ class Permissoes {
                 'nome'=>"Reservas",
                 'caminho'=>"reserva.php",
                 'permissao'=>1
+            ],             
+            [
+                'nome'=>"Consulta",
+                'caminho'=>"reservaConsulta.php",
+                'permissao'=>0
             ],
             [
                 'nome'=>"Login",

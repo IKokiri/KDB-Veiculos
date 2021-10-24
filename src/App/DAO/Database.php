@@ -110,7 +110,6 @@ class Database extends InfoDB
 
             $arrayRetorno['status'] = false;
             $arrayRetorno['MSN'] = $Exception;
-            
         }
 
         return $arrayRetorno;

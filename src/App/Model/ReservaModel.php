@@ -33,7 +33,8 @@ class ReservaModel extends Model{
 
        $sql = "SELECT res.*,vei.marca,vei.modelo,vei.placa FROM ".$this->table." res
        INNER JOIN veiculos vei
-       on res.id_veiculo = vei.id
+       on res.id_veiculo = vei.id 
+       order by res.data_retorno asc, res.data_retorno desc
        limit :pagini,:pagfim";
 
         $query = $this->conn->prepare($sql);
@@ -92,7 +93,6 @@ class ReservaModel extends Model{
         $response = $clientF->request('GET', '', []);
         $body = $response->getBody();
         $arr_func = json_decode($body,true);
-
         $clientC = new Client([
             // Base URI is used with relative requests
             'base_uri' => 'http://201.49.127.157:9003/gesstor/App/API/contratos.php',
@@ -102,15 +102,17 @@ class ReservaModel extends Model{
         $arr_cont = json_decode($body,true);
 
         $sql = "SELECT res.*,vei.marca,vei.modelo,vei.placa FROM ".$this->table." res
-         inner join veiculos vei
+         left join veiculos vei
          on res.id_veiculo = vei.id
+         left join usuarios usu
+         on res.id_funcionario = usu.id
         WHERE res.id = :id;";
 
         $query = $this->conn->prepare($sql);
 
         $query->bindValue(':id', $this->id, PDO::PARAM_STR);
 
-        $result = Database::executa($query);   
+        $result = Database::executa($query);
 
         $id_funcionario = $result['result_array'][0]['id_funcionario'];
         $id_contrato = $result['result_array'][0]['id_contrato'];
@@ -132,14 +134,18 @@ class ReservaModel extends Model{
                     `id_funcionario`,
                     `data_saida`,
                     `data_retorno`,
+                    `data_retorno_previsto`,
                     `local`,
+                    `observacao`,
                     `id_contrato`)
                     VALUES
                     (:id_veiculo,
                      :id_funcionario,
                      :data_saida,
-                     :data_retorno,
+                    :data_retorno,
+                     :data_retorno_previsto,
                      :local,
+                     :observacao,
                      :id_contrato)";
 
         $query = $this->conn->prepare($sql);
@@ -148,7 +154,9 @@ class ReservaModel extends Model{
         $query->bindValue(':id_funcionario', $this->id_funcionario, PDO::PARAM_STR);
         $query->bindValue(':data_saida', $this->data_saida, PDO::PARAM_STR);
         $query->bindValue(':data_retorno', $this->data_retorno, PDO::PARAM_STR);
+        $query->bindValue(':data_retorno_previsto', $this->data_retorno_previsto, PDO::PARAM_STR);
         $query->bindValue(':local', $this->local, PDO::PARAM_STR);
+        $query->bindValue(':observacao', $this->observacao, PDO::PARAM_STR);
         $query->bindValue(':id_contrato', $this->id_contrato, PDO::PARAM_STR);
         
         $result = Database::executa($query); 
@@ -161,15 +169,17 @@ class ReservaModel extends Model{
     function update($data){
 
         $this->populate($data);
-
+        
         $sql = "UPDATE ".$this->table." 
                 SET
                 `id_veiculo` = :id_veiculo,
                 `id_funcionario` = :id_funcionario,
                 `data_saida` = :data_saida,
                 `data_retorno` = :data_retorno,
+                `data_retorno_previsto` = :data_retorno_previsto,
                 `local` = :local,
-                `id_contrato` = :id_contrato
+                `id_contrato` = :id_contrato,
+                `observacao` = :observacao
                 WHERE `id` = :id;";
 
         $query = $this->conn->prepare($sql);
@@ -179,7 +189,9 @@ class ReservaModel extends Model{
         $query->bindValue(':id_funcionario', $this->id_funcionario, PDO::PARAM_STR);  
         $query->bindValue(':data_saida', $this->data_saida, PDO::PARAM_STR);
         $query->bindValue(':data_retorno', $this->data_retorno, PDO::PARAM_STR);
+        $query->bindValue(':data_retorno_previsto', $this->data_retorno_previsto, PDO::PARAM_STR);
         $query->bindValue(':local', $this->local, PDO::PARAM_STR);
+        $query->bindValue(':observacao', $this->observacao, PDO::PARAM_STR);
         $query->bindValue(':id_contrato', $this->id_contrato, PDO::PARAM_STR);
       
         $result = Database::executa($query);   

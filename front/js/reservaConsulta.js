@@ -236,8 +236,6 @@ function grid_principal(term = "",ini = 0,fim = 10){
                     <td>${funcionarioApi[dados[linha].id_funcionario].nome}</td>
                     <td>${dados[linha].local}</td>
                     <td data-id="${dados[linha].id}" class='info'><img src="./icons/info.png"  alt=""></td>
-                    <td data-id="${dados[linha].id}" id="edit"><img src="./icons/001-pencil.png"  alt=""></td>
-                    <td data-id="${dados[linha].id}" id="remover"><img src="./icons/002-delete.png"  alt=""></td>
                 </tr>
             `
         }
@@ -283,50 +281,6 @@ function apiContratos(){
         
     })
     .catch(console.error);
-}
-
-$(document).on("change","#id_funcionario",function(){
-    let id_func = $(this).val()
-    let cnh = funcionarioApi[id_func].cnh
-    let validade = funcionarioApi[id_func].validadeCNH
-    let categoria = funcionarioApi[id_func].categoriaCNH
-
-    let data = new Date()
-
-    let dataAtual = data.getFullYear()+"/"+(data.getMonth()+1)+"/"+data.getDate()
-
-    let color = 'alert-danger'
-    if(compareDataEN(dataAtual,validade)){
-        color = 'alert-primary'
-    }
-    
-    $('#alert_cnh').html("CNH: "+cnh)
-    $('#alert_validade').html("VALIDADE: "+dataENBR(validade))
-    $('#alert_categoria').html(categoria)
-
-    $('.alert-cnh').removeClass('alert-danger')
-    $('.alert-cnh').removeClass('alert-primary')
-    $('.alert-cnh').addClass(color)
-})
-
-function dataENBR(data){
-    let arrData = data.split('-')
-    return arrData[2] +"/"+arrData[1] +"/"+arrData[0]
-}
-
-function compareDataEN(data1,data2) {
-
-    let d1 = parseInt(data1.replaceAll('/','').replaceAll('-',''))
-    let d2 = parseInt(data2.replaceAll('/','').replaceAll('-',''))
-
-    console.log(d1+"<="+d2)
-    if(d1 <= d2) {
-        console.log("s");
-        return true
-    }
-    console.log("n");
-
-    return false
 }
 
 function pagination(ini,fim = 10,count){
@@ -431,12 +385,11 @@ function info(id){
             if(data.MSN){
                 base_erro(data.MSN.errorInfo[1])
             }         
-            console.log(data)
             linha = data.result_array[0];
+            
             
         document.querySelector("#veic").innerHTML = linha.marca+" "+linha.modelo+" - "+linha.placa
         document.querySelector("#func").innerHTML = linha.funcionario
-        document.querySelector("#validadeCNH").innerHTML = "Validade da CNH: "+dataENBR(funcionarioApi[linha.id_funcionario].validadeCNH || '0000-00-00')
         document.querySelector("#said").innerHTML = linha.data_saida
         document.querySelector("#reto").innerHTML = linha.data_retorno
         document.querySelector("#reto_prev").innerHTML = linha.data_retorno_previsto
