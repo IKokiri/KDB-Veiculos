@@ -4,7 +4,6 @@ const apiFunc = "http://201.49.127.157:9003/gesstor/App/API/funcionarios.php"
 const apiCont = "http://201.49.127.157:9003/gesstor/App/API/contratos.php"
 var funcionarioApi = {}
 $(document).ready(function(){
-
 inicio();
 
 function inicio(){
@@ -13,6 +12,18 @@ function inicio(){
     apiFuncionarios()
     apiContratos()    
     $('#modal_principal').modal('hide')
+}
+function cleanInfo(){
+
+    document.querySelector("#veic").innerHTML = ""
+    document.querySelector("#func").innerHTML = ""
+    document.querySelector("#validadeCNH").innerHTML = ""
+    document.querySelector("#said").innerHTML = ""
+    document.querySelector("#reto").innerHTML = ""
+    document.querySelector("#reto_prev").innerHTML = ""
+    document.querySelector("#loca").innerHTML = ""
+    document.querySelector("#cont").innerHTML = ""
+    document.querySelector("#obse").innerHTML = ""
 }
 
 function carregar_campos(){
@@ -87,48 +98,18 @@ $(document).on('click','#abrir_modal',function(){
 })
 
 
-$(document).on('click','.info',function(){
-    $('#modal_info').modal('show')
+$(document).on('click','.info',async function(){
+    cleanInfo()
     id = $(this).data("id");
-    info(id)
+    await info(id)
+    $("#loadingInfo").show()
+    $('#modal_info').modal('show')
 })
 
 $('#modal_principal').on('hidden.bs.modal', function () {
     document.querySelector("#id").value = ""
   })
 
-$(document).on('click','#salvar',function(){
-    formData = carregar_campos()
-    id = formData.get("id");
-
-    if(id){
-        update(formData)
-    }else{
-        criar(formData)
-    }
-
-})
-
-$(document).on('click','#remover',function(){
-    
-    id = $(this).attr("data-id");
-    
-    var res = confirm("Deseja remover o registro?");
-    if (res == true) {
-        remover(id);
-    } else {
-    
-    }
-    
-})
-
-$(document).on('click','#edit',function(){
-
-    $('#modal_principal').modal('show')
-    id = $(this).attr("data-id");
-    edit(id);
-    
-})
 
 $(document).on("keyup","#buscar",function(){
     term = document.querySelector("#buscar").value;
@@ -229,7 +210,7 @@ function grid_principal(term = "",ini = 0,fim = 10){
             grid +=
             `
                 <tr class=${cor}>
-                    <td>${dados[linha].marca} ${dados[linha].modelo} - ${dados[linha].placa}</td>
+                    <td>d${dados[linha].marca} ${dados[linha].modelo} - ${dados[linha].placa}</td>
                     <td>${dados[linha].data_saida}</td>
                     <td>${dados[linha].data_retorno}</td>
                     <td>${dados[linha].data_retorno_previsto}</td>
@@ -281,6 +262,50 @@ function apiContratos(){
         
     })
     .catch(console.error);
+}
+
+$(document).on("change","#id_funcionario",function(){
+    let id_func = $(this).val()
+    let cnh = funcionarioApi[id_func].cnh
+    let validade = funcionarioApi[id_func].validadeCNH
+    let categoria = funcionarioApi[id_func].categoriaCNH
+
+    let data = new Date()
+
+    let dataAtual = data.getFullYear()+"/"+(data.getMonth()+1)+"/"+data.getDate()
+
+    let color = 'alert-danger'
+    if(compareDataEN(dataAtual,validade)){
+        color = 'alert-primary'
+    }
+    
+    $('#alert_cnh').html("CNH: "+cnh)
+    $('#alert_validade').html("VALIDADE: "+dataENBR(validade))
+    $('#alert_categoria').html(categoria)
+
+    $('.alert-cnh').removeClass('alert-danger')
+    $('.alert-cnh').removeClass('alert-primary')
+    $('.alert-cnh').addClass(color)
+})
+
+function dataENBR(data){
+    let arrData = data.split('-')
+    return arrData[2] +"/"+arrData[1] +"/"+arrData[0]
+}
+
+function compareDataEN(data1,data2) {
+
+    let d1 = parseInt(data1.replaceAll('/','').replaceAll('-',''))
+    let d2 = parseInt(data2.replaceAll('/','').replaceAll('-',''))
+
+    console.log(d1+"<="+d2)
+    if(d1 <= d2) {
+        console.log("s");
+        return true
+    }
+    console.log("n");
+
+    return false
 }
 
 function pagination(ini,fim = 10,count){
@@ -369,7 +394,7 @@ function remover(id){
 }
 
 
-function info(id){
+async function info(id){
 
     formData = new FormData();
     formData.append('class', controller);
@@ -387,15 +412,18 @@ function info(id){
             }         
             linha = data.result_array[0];
             
-            
         document.querySelector("#veic").innerHTML = linha.marca+" "+linha.modelo+" - "+linha.placa
         document.querySelector("#func").innerHTML = linha.funcionario
+        document.querySelector("#validadeCNH").innerHTML = "Validade da CNH: "+dataENBR(funcionarioApi[linha.id_funcionario].validadeCNH || '0000-00-00')
         document.querySelector("#said").innerHTML = linha.data_saida
         document.querySelector("#reto").innerHTML = linha.data_retorno
         document.querySelector("#reto_prev").innerHTML = linha.data_retorno_previsto
         document.querySelector("#loca").innerHTML = linha.local
         document.querySelector("#cont").innerHTML = linha.contrato
         document.querySelector("#obse").innerHTML = nl2br("<br>"+linha.observacao)
+
+        $("#loadingInfo").hide()
+        return true
         })
         .catch(console.error);
 }
