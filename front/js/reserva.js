@@ -90,6 +90,7 @@ $(document).on('click','#abrir_modal',function(){
 $(document).on('click','.info',async function(){
     id = $(this).data("id");
     await info(id)
+    $("#loadingInfo").show()
     $('#modal_info').modal('show')
 })
 
@@ -431,7 +432,6 @@ async function info(id){
             if(data.MSN){
                 base_erro(data.MSN.errorInfo[1])
             }         
-            console.log(data)
             linha = data.result_array[0];
             
         document.querySelector("#veic").innerHTML = linha.marca+" "+linha.modelo+" - "+linha.placa
@@ -443,6 +443,8 @@ async function info(id){
         document.querySelector("#loca").innerHTML = linha.local
         document.querySelector("#cont").innerHTML = linha.contrato
         document.querySelector("#obse").innerHTML = nl2br("<br>"+linha.observacao)
+
+        $("#loadingInfo").hide()
         return true
         })
         .catch(console.error);

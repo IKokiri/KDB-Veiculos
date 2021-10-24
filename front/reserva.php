@@ -5,7 +5,6 @@
 <html lang="pt-br">
 
 <body>
-        
   <div class="text-center">
     <button class="btn btn-primary m-1" id="abrir_modal">
         +
@@ -112,6 +111,9 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
+        <div class="spinner-border" id="loadingInfo" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
           <h5 class="modal-title" id="exampleModalLabel">Informações</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
