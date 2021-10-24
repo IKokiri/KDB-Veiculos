@@ -14,6 +14,18 @@ function inicio(){
     apiContratos()    
     $('#modal_principal').modal('hide')
 }
+function cleanInfo(){
+
+    document.querySelector("#veic").innerHTML = ""
+    document.querySelector("#func").innerHTML = ""
+    document.querySelector("#validadeCNH").innerHTML = ""
+    document.querySelector("#said").innerHTML = ""
+    document.querySelector("#reto").innerHTML = ""
+    document.querySelector("#reto_prev").innerHTML = ""
+    document.querySelector("#loca").innerHTML = ""
+    document.querySelector("#cont").innerHTML = ""
+    document.querySelector("#obse").innerHTML = ""
+}
 
 function carregar_campos(){
 
@@ -88,6 +100,7 @@ $(document).on('click','#abrir_modal',function(){
 
 
 $(document).on('click','.info',async function(){
+    cleanInfo()
     id = $(this).data("id");
     await info(id)
     $("#loadingInfo").show()
